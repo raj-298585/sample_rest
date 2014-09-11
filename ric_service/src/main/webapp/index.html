@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="ISO-8859-1" ?>
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1" />
+<title>Tree Table Demo</title>
+<script type="text/javascript"
+	src="http://code.jquery.com/jquery-1.11.1.min.js"></script>
+</head>
+<body>
+
+	Name:
+	<input type="text" id="txtName" />
+	<br />
+	<input type="button" name="btnSubmit" id="btnSubmit" value="Submit" />
+	Response :
+	<span id="txtResult">Not Available</span>
+
+	<script type="text/javascript">
+		$(document).ready(function() {
+			$('#btnSubmit').click(function() {
+				var input = $('#txtName').val();
+				console.log('Input: ' + input);
+				$.ajax({
+					url : "http://localhost:8080/ric_service/rest/hello",
+					type : "POST",
+					data : "{ name: '" + input + "' }",
+					dataType : "json",
+					contentType : "application/json",
+					success : function(data) {
+
+						$.each(data, function(key, value) {
+							if (!(key == "NILL")) {
+								$('#txtResult').text("Available");
+							} else {
+								$('#txtResult').text("Not Available");
+							}
+						});
+					},
+					error : function(jqXHR, e) {
+						console.log(jqXHR + ' :: Error:' + e.message);
+					}
+				});
+
+			});
+		});
+	</script>
+</body>
+</html>
